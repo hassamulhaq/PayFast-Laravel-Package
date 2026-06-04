@@ -2,9 +2,9 @@
 
 namespace Payfastlaravelpackage\PayFastLaravelPackage;
 
+use Payfastlaravelpackage\PayFastLaravelPackage\Commands\PayFastLaravelPackageCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Payfastlaravelpackage\PayFastLaravelPackage\Commands\PayFastLaravelPackageCommand;
 
 class PayFastLaravelPackageServiceProvider extends PackageServiceProvider
 {
