@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Payfastlaravelpackage\PayFastLaravelPackage\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PayFastLaravelPackageCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'payfast-laravel-package';
 
     public $description = 'My command';
 

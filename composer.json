@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "hassam/payfast-laravel-package",
+    "description": "Laravel integration for PayFast",
     "keywords": [
-        ":vendor_name",
+        "payfast-laravel-package",
         "laravel",
-        ":package_slug"
+        "payfast-laravel-package"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/hassam/payfast-laravel-package",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "hassamulhaq",
+            "email": "developer.hassam@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Payfastlaravelpackage\\PayFastLaravelPackage\\": "src/",
+            "Payfastlaravelpackage\\PayFastLaravelPackage\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Payfastlaravelpackage\\PayFastLaravelPackage\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Payfastlaravelpackage\\PayFastLaravelPackage\\PayFastLaravelPackageServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "PayFastLaravelPackage": "Payfastlaravelpackage\\PayFastLaravelPackage\\Facades\\PayFastLaravelPackage"
             }
         }
     },
