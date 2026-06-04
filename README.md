@@ -87,6 +87,95 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 # PayFast (gopayfast.com) — Real-world integration guide
 
+## Why this package?
+
+You already have a storefront on a platform where **no official PayFast plugin
+exists** — Wix, Shopify, Magento (community/Adobe), Webflow, Squarespace, a
+hand-rolled site, anything. You still want PayFast Pakistan as the checkout
+gateway because that's what your customers expect (cards, JazzCash, Easypaisa,
+UPaisa, Raast, bank accounts).
+
+The classic pattern works:
+
+1. **Keep your storefront where it is.** `example.com` stays on Wix /
+   Shopify / Magento. You don't migrate anything.
+2. **Stand up a Laravel app on a subdomain.** `payments.example.com` or
+   `checkout.example.com`. Cheap shared host, VPS, Laravel Cloud — anywhere
+   PHP runs.
+3. **Install this package.** `composer require hassam/payfast-laravel-package`,
+   publish config + migrations, drop your PayFast sandbox or live credentials
+   into `.env`. You now have a fully functional PayFast bridge.
+4. **Publish the JS injector to your storefront.** The package ships a
+   vanilla-JS file (no jQuery) that you paste into the storefront's "Custom
+   Code" slot. It scrapes the cart total + customer fields from the storefront
+   DOM, calls a CORS-restricted endpoint on your Laravel app to get a signed
+   URL, and renders a custom **Pay Now** button. You can attach the button
+   anywhere — checkout page, cart, product page, even a sticky bottom bar.
+
+### What the buyer actually sees
+
+```
+1. Buyer fills cart on example.com           (Wix / Shopify / Magento)
+                ↓
+2. Storefront shows custom "Pay Now" button  (injected by our JS)
+                ↓
+3. Click → opens a new tab at
+   payments.example.com/payment/checkout?…&sig=…
+                ↓
+4. Laravel renders a review screen:          (this package)
+   read-only Amount, Name, Email, Phone,
+   Order ID + a Pay Now button
+                ↓
+5. Click Pay Now → Laravel fetches a token   (this package → PayFast API)
+   from PayFast and auto-submits a hidden
+   form to PayFast's hosted card page
+                ↓
+6. Buyer enters card / wallet on             (PayFast hosted page)
+   ipg1.apps.net.pk
+                ↓
+7. PayFast redirects back to                  (this package)
+   payments.example.com with success or
+   failure. Animated success/failed page
+   renders with an 8-second countdown.
+                ↓
+8. After 8 s the page auto-redirects to       (back to your storefront)
+   example.com/checkout/success or /failed.
+   Meanwhile PayFast's IPN webhook hits
+   Laravel server-to-server with the
+   authoritative result.
+```
+
+The HMAC signature on the handoff URL means the storefront can't tamper with
+the amount or customer details — the secret stays on the Laravel side. The IPN
+hash from PayFast means the callback can't be spoofed.
+
+### What you get out of the box
+
+- Subdomain that hosts the entire payment flow (no PCI scope on your
+  storefront — cards are entered on PayFast's hosted page).
+- Database of every payment attempt with raw IPN payloads, error payloads,
+  customer snapshots, soft-deletable history.
+- Customer auto-create with a welcome email containing a readable temporary
+  password — buyers can later log in and see their own history at
+  `payments.example.com/payments`.
+- An optional storefront webhook that POSTs back to your storefront the moment
+  a payment settles, so you can mark the order paid on the Wix / Shopify /
+  Magento side without polling.
+- A built-in admin tester at `/paymentgateway/testing/payfast` for QA — sign
+  arbitrary cart payloads from a form, skip the storefront.
+
+### When NOT to use this
+
+- The platform has a maintained native PayFast plugin (most native plugins do
+  the heavy lifting themselves). Use that instead.
+- You're in PCI-DSS Level 1 territory and want to avoid hosted gateways
+  entirely. PayFast direct API is gated per-merchant on gopayfast and not
+  exposed on most sandboxes — outside the scope of this package.
+- You need a payment gateway other than PayFast Pakistan. The package is
+  named for a reason — it's gopayfast-specific.
+
+---
+
 This package wraps the **PayFast Pakistan** hosted-checkout gateway behind a
 clean Laravel integration. It was built and battle-tested with a Wix storefront
 → Laravel bridge → PayFast hosted card page → IPN/redirect → back to storefront.
