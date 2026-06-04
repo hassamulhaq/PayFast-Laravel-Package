@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Payfastlaravelpackage\PayFastLaravelPackage\Http\Controllers\CheckoutController;
 use Payfastlaravelpackage\PayFastLaravelPackage\Http\Controllers\ExternalCheckoutSignController;
@@ -18,7 +19,7 @@ Route::middleware($webMw)->group(function () use ($prefix) {
         Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout');
         Route::post('payfast/initiate/{uuid}', [CheckoutController::class, 'initiate'])->name('initiate');
         Route::match(['get', 'post'], 'payfast/callback', PayfastCallbackController::class)
-            ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class)
+            ->withoutMiddleware(ValidateCsrfToken::class)
             ->name('callback');
     });
 

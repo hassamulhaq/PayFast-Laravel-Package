@@ -1,5 +1,9 @@
 <?php
 
+use Payfastlaravelpackage\PayFastLaravelPackage\Mail\PaymentFailedMail;
+use Payfastlaravelpackage\PayFastLaravelPackage\Mail\PaymentReceiptMail;
+use Payfastlaravelpackage\PayFastLaravelPackage\Mail\WelcomeWithCredentialsMail;
+
 /*
  * PayFast Pakistan (gopayfast.com) Laravel integration.
  *
@@ -147,9 +151,9 @@ return [
     | if you want different envelopes or queueing.
     */
     'mail' => [
-        'welcome_with_credentials' => \Payfastlaravelpackage\PayFastLaravelPackage\Mail\WelcomeWithCredentialsMail::class,
-        'payment_receipt' => \Payfastlaravelpackage\PayFastLaravelPackage\Mail\PaymentReceiptMail::class,
-        'payment_failed' => \Payfastlaravelpackage\PayFastLaravelPackage\Mail\PaymentFailedMail::class,
+        'welcome_with_credentials' => WelcomeWithCredentialsMail::class,
+        'payment_receipt' => PaymentReceiptMail::class,
+        'payment_failed' => PaymentFailedMail::class,
     ],
 
     /*
