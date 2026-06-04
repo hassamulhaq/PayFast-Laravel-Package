@@ -76,7 +76,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [hassamulhaq](https://github.com/Hassam)
+- [hassamulhaq](https://github.com/hassamulhaq)
 - [All Contributors](../../contributors)
 
 ## License
