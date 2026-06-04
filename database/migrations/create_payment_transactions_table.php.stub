@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('payment_transactions', function (Blueprint $table) {
+            $table->id();
+            $table->ulid('uuid')->unique();
+
+            $table->string('source')->default('external');
+            $table->string('source_order_id')->nullable()->index();
+
+            $table->string('basket_id')->unique();
+            $table->string('basket_id_source')->default('laravel');
+
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->string('customer_email')->nullable()->index();
+            $table->string('customer_mobile')->nullable();
+            $table->string('customer_first_name')->nullable();
+            $table->string('customer_last_name')->nullable();
+
+            $table->decimal('amount', 12, 2);
+            $table->string('currency', 3)->default('PKR');
+
+            $table->string('store_id')->nullable();
+            $table->text('payfast_token')->nullable();
+            $table->string('payfast_signature')->nullable();
+            $table->string('payfast_transaction_id')->nullable()->index();
+            $table->string('payfast_status_code')->nullable()->index();
+            $table->text('payfast_status_message')->nullable();
+            $table->string('payfast_validation_hash')->nullable();
+            $table->string('payment_notification_method')->nullable();
+
+            $table->string('status')->default('pending')->index();
+
+            $table->json('request_payload')->nullable();
+            $table->json('response_payload')->nullable();
+            $table->json('payfast_webhook_payload')->nullable();
+            $table->json('payfast_error_payload')->nullable();
+
+            $table->string('return_url')->nullable();
+            $table->string('success_url')->nullable();
+            $table->string('failure_url')->nullable();
+
+            $table->timestamp('order_date')->nullable();
+            $table->timestamp('initiated_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
+            $table->timestamp('failed_at')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('payment_transactions');
+    }
+};

@@ -1,10 +1,15 @@
 {
     "name": "hassam/payfast-laravel-package",
-    "description": "Laravel integration for PayFast",
+    "description": "Drop-in Laravel integration for PayFast Pakistan (gopayfast.com) — hosted checkout, signed external-storefront handoff (Wix/Shopify/custom), IPN + redirect callback handling, customer auto-create, receipts, and webhook notify-back.",
     "keywords": [
-        "payfast-laravel-package",
         "laravel",
-        "payfast-laravel-package"
+        "payfast",
+        "gopayfast",
+        "pakistan",
+        "payments",
+        "wix",
+        "shopify",
+        "ecommerce"
     ],
     "homepage": "https://github.com/hassam/payfast-laravel-package",
     "license": "MIT",
@@ -16,9 +21,18 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.3||^8.4",
         "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^11.0||^12.0||^13.0"
+        "illuminate/contracts": "^11.0||^12.0||^13.0",
+        "illuminate/database": "^11.0||^12.0||^13.0",
+        "illuminate/http": "^11.0||^12.0||^13.0",
+        "illuminate/mail": "^11.0||^12.0||^13.0",
+        "illuminate/support": "^11.0||^12.0||^13.0"
+    },
+    "suggest": {
+        "spatie/laravel-permission": "Required only if you set PAYFAST_AUTO_ASSIGN_ROLE to auto-attach a role to newly created customers.",
+        "owen-it/laravel-auditing": "If you want per-row audit history on the PaymentTransaction model. Extend the model and add the Auditable trait.",
+        "spatie/laravel-activitylog": "If you want narrow event logs (e.g. status transitions) on PaymentTransaction."
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -64,10 +78,7 @@
         "laravel": {
             "providers": [
                 "Payfastlaravelpackage\\PayFastLaravelPackage\\PayFastLaravelPackageServiceProvider"
-            ],
-            "aliases": {
-                "PayFastLaravelPackage": "Payfastlaravelpackage\\PayFastLaravelPackage\\Facades\\PayFastLaravelPackage"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
